@@ -1,5 +1,13 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Json-Server (New!)
+
+- We add a file: server.json to simulate the API with data
+
+For more information: [json-server](https://github.com/typicode/json-server)
+
+---
+
 ## Available Scripts
 
 In the project directory, you can run:

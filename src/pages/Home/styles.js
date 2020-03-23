@@ -27,7 +27,7 @@ export const ProductList = styled.ul`
     }
 
     > span {
-      font-size: 12px;
+      font-size: 18px;
       font-weight: bold;
       margin: 5px 0 20px;
     }

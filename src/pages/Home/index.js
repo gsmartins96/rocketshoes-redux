@@ -1,101 +1,46 @@
-import React from 'react';
-
+import React, { Component } from 'react';
 import { ProductList } from './styles';
 import { MdShoppingCart } from 'react-icons/md';
 
-export default function Home() {
-  return (
-    <ProductList>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-mizuno-wave-prophecy-9-masculino/20/D16-5355-120/D16-5355-120_zoom2.jpg?ts=1583144798&ims=326x"
-          alt="Mizuno Prophecy"
-        />
-        <strong>Mizuno Prophecy Wave 9</strong>
-        <span>R$ 1.299,00</span>
-        <button type="button">
-          <div>
-            <MdShoppingCart size={16} color="#FFF" /> 3
-          </div>
+import { formatPrice } from '../../util/format';
+import api from '../../services/api';
 
-          <span>Adicionar ao Carrinho</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-mizuno-wave-prophecy-9-masculino/20/D16-5355-120/D16-5355-120_zoom2.jpg?ts=1583144798&ims=326x"
-          alt="Mizuno Prophecy"
-        />
-        <strong>Mizuno Prophecy Wave 9</strong>
-        <span>R$ 1.299,00</span>
-        <button type="button">
-          <div>
-            <MdShoppingCart size={16} color="#FFF" /> 3
-          </div>
+export default class Home extends Component {
+  state = {
+    products: [],
+  };
 
-          <span>Adicionar ao Carrinho</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-mizuno-wave-prophecy-9-masculino/20/D16-5355-120/D16-5355-120_zoom2.jpg?ts=1583144798&ims=326x"
-          alt="Mizuno Prophecy"
-        />
-        <strong>Mizuno Prophecy Wave 9</strong>
-        <span>R$ 1.299,00</span>
-        <button type="button">
-          <div>
-            <MdShoppingCart size={16} color="#FFF" /> 3
-          </div>
+  async componentDidMount() {
+    const response = await api.get('products');
 
-          <span>Adicionar ao Carrinho</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-mizuno-wave-prophecy-9-masculino/20/D16-5355-120/D16-5355-120_zoom2.jpg?ts=1583144798&ims=326x"
-          alt="Mizuno Prophecy"
-        />
-        <strong>Mizuno Prophecy Wave 9</strong>
-        <span>R$ 1.299,00</span>
-        <button type="button">
-          <div>
-            <MdShoppingCart size={16} color="#FFF" /> 3
-          </div>
+    const data = response.data.map((product) => ({
+      ...product,
+      priceFormatted: formatPrice(product.price),
+    }));
 
-          <span>Adicionar ao Carrinho</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-mizuno-wave-prophecy-9-masculino/20/D16-5355-120/D16-5355-120_zoom2.jpg?ts=1583144798&ims=326x"
-          alt="Mizuno Prophecy"
-        />
-        <strong>Mizuno Prophecy Wave 9</strong>
-        <span>R$ 1.299,00</span>
-        <button type="button">
-          <div>
-            <MdShoppingCart size={16} color="#FFF" /> 3
-          </div>
+    this.setState({ products: data });
+  }
 
-          <span>Adicionar ao Carrinho</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-mizuno-wave-prophecy-9-masculino/20/D16-5355-120/D16-5355-120_zoom2.jpg?ts=1583144798&ims=326x"
-          alt="Mizuno Prophecy"
-        />
-        <strong>Mizuno Prophecy Wave 9</strong>
-        <span>R$ 1.299,00</span>
-        <button type="button">
-          <div>
-            <MdShoppingCart size={16} color="#FFF" /> 3
-          </div>
+  render() {
+    const { products } = this.state;
 
-          <span>Adicionar ao Carrinho</span>
-        </button>
-      </li>
-    </ProductList>
-  );
+    return (
+      <ProductList>
+        {products.map((product) => (
+          <li key={product.id}>
+            <img src={product.image} alt={product.title} />
+            <strong>{product.title}</strong>
+            <span>{product.priceFormatted}</span>
+            <button type="button">
+              <div>
+                <MdShoppingCart size={16} color="#FFF" /> 3
+              </div>
+
+              <span>Adicionar ao Carrinho</span>
+            </button>
+          </li>
+        ))}
+      </ProductList>
+    );
+  }
 }
